@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Movie - Online Streaming</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url(hh.jpg);
+            scrollbar-shadow-color: #333;
+            background-size: cover;
+            color: #ffffff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%);
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .header {
+            background: rgba(220, 208, 208, 0);
+            padding: 15px 50px;
+            display: flex;
+            border-radius: 25px;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 0px solid #333;
+            backdrop-filter: blur(10px);
+        }
+
+       
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            transform: translate(5px);
+        }
+
+        .nav-btn {
+            padding: 10px 24px;
+            background: rgba(232, 223, 223, 0);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            cursor: pointer;
+            border-radius: 18px;
+            transition: all 0.3s ease;
+            font-size: 17px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: #a4d233;
+            color: #000;
+            border-color: #a4d233;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 35px 60px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #e5e5e5;
+            font-weight: 600;
+            font-size: 30px;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .movie-card {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 6px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .movie-card:hover {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+            border-color: rgba(164, 210, 51, 0.5);
+            z-index: 10;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 360px;
+            position: relative;
+            overflow: hidden;
+            background: #141414;
+        }
+
+        .movie-poster img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover .movie-poster img {
+            transform: scale(1.1);
+        }
+
+        .movie-info {
+            padding: 12px 15px;
+            background: rgba(20, 20, 20, 0.98);
+        }
+
+        .movie-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .movie-year {
+            color: #888;
+            font-weight: 400;
+        }
+
+        .movie-details {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            color: #888;
+        }
+
+        .movie-quality {
+            background: rgba(164, 210, 51, 0.2);
+            color: #a4d233;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .movie-rating {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .brands-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .brand-card {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 8px;
+            padding: 50px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 180px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .brand-card:hover {
+            transform: scale(1.05);
+            background: rgba(30, 30, 30, 0.95);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .brand-name {
+            font-size: 38px;
+            font-weight: bold;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .disney { 
+            background: linear-gradient(to right, #1e3a8a, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .marvel { 
+            color: #ed1d24;
+            font-family: 'Arial Black', sans-serif;
+        }
+        
+        .dc { 
+            background: linear-gradient(to right, #0c4da2, #1e5bb8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .starwars { 
+            color: #000;
+            text-shadow: -2px -2px 0 #ffc500, 2px -2px 0 #ffc500, -2px 2px 0 #ffc500, 2px 2px 0 #ffc500;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 50px 0;
+        }
+
+        .page-btn {
+            padding: 10px 18px;
+            background: rgba(42, 42, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #888;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: #a4d233;
+            color: #000;
+            border-color: #a4d233;
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 50px 40px;
+            text-align: center;
+            margin-top: 60px;
+            border-top: 1px solid #333;
+        }
+
+        .footer-text {
+            color: #888;
+            line-height: 1.9;
+            max-width: 950px;
+            margin: 0 auto 25px;
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 35px;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: #888;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .footer-link:hover {
+            color: #a4d233;
+        }
+
+        @media (max-width: 1400px) {
+            .movies-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .movies-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .brands-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .container {
+                padding: 25px 20px;
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .movie-poster {
+                height: 280px;
+            }
+
+            .brands-section {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .movie-title {
+                font-size: 13px;
+            }
+
+            .brand-name {
+                font-size: 32px;
+            }
+        }
+        .logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  gap: 10px;
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  line-height: 1;
+  background: transparent;
+  mix-blend-mode: normal;
+  filter: none;
+
+}
+.logo a {
+    text-decoration: none;
+    color: white;
+}
+.logo-container {
+  background: transparent;
+}
+
+.logo-img {
+  width: 65px;                
+  height: 65px;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: transparent;
+  filter: drop-shadow(0 0 14px #9cff00);
+  transition: transform 0.3s ease, filter 0.3s ease;
+  vertical-align: middle;
+}
+
+.logo-img:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 20px #baff00);
+}
+
+.logo h1 {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: white;
+  font-weight: 700;
+  text-shadow: 0 0 12px rgba(156,255,0,0.3);
+}
+    </style>
+</head>
+<body>
+    <header class="header">
+           <div class="logo">
+      <img src="img/logo.jpg" alt="IT Movie Logo" class="logo-img">
+      <a href="index.html"><h1>IT Movie </h1></a>
+    </div>
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="filterContent('movies')">Movies</button>
+            <button class="nav-btn" onclick="filterContent('tv')">TV Shows</button>
+            <button class="nav-btn" onclick="filterContent('anime')">Anime</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1 class="section-title">Upcoming Movies</h1>
+        
+        <div class="movies-grid" id="moviesGrid"></div>
+
+        <h2 class="section-title" style="margin-top: 40px;">Popular Studios</h2>
+        
+        <div class="brands-section">
+            <div class="brand-card" onclick="filterByBrand('disney')">
+                <div class="brand-name disney">Walt Disney</div>
+            </div>
+            <div class="brand-card" style="background: #000;" onclick="filterByBrand('marvel')">
+                <div class="brand-name marvel">MARVEL</div>
+            </div>
+            <div class="brand-card" onclick="filterByBrand('dc')">
+                <div class="brand-name dc">DC</div>
+            </div>
+            <div class="brand-card" onclick="filterByBrand('starwars')">
+                <div class="brand-name starwars">STAR WARS</div>
+            </div>
+        </div>
+
+        <h2 class="section-title" style="margin-top: 40px;">Featured Collection</h2>
+        
+        <div class="movies-grid" id="moreMoviesGrid"></div>
+
+        <div class="pagination">
+            <button class="page-btn active" onclick="changePage(1)">1</button>
+            <button class="page-btn" onclick="changePage(2)">2</button>
+            <button class="page-btn" onclick="changePage(3)">3</button>
+            <button class="page-btn" onclick="changePage(4)">4</button>
+            <button class="page-btn" onclick="changePage('next')">NEXT</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p class="footer-text">
+            IT Movie is an online movie streaming platform that offers curated content that is not released. It has a huge 
+            collection of latest movies and films that still not available on the market and YouTube. You can watch and download 
+            all contents free of caste but they are illegal, so you have to take some precautions. It is not available in all countries 
+            so you can use VPN and choose a location with access to IT Movie. Here, we will discuss the IT Movie.
+        </p>
+        <div class="footer-links">
+            <a href="#" class="footer-link">About us</a>
+            <a href="#" class="footer-link">Vlog</a>
+            <a href="#" class="footer-link">Contact</a>
+            <a href="#" class="footer-link">Report broken links</a>
+            <a href="#" class="footer-link">Disclaimer</a>
+        </div>
+    </footer>
+
+    <script>
+        const movies = [
+            { 
+                
+                title: 'Free Guy', 
+                year: 2023, 
+                quality: 'HD', 
+                rating: 8.6,
+                time: '1h 56m',
+                image: 'free guy.png',
+                link: 'freeguy.html',
+                
+            },
+            { 
+                title: 'Veerappan', 
+                year: 2023, 
+                quality: 'HD', 
+                rating: 9.0,
+                time: '2h 15m',
+                image: 'veerappan.png'
+            },
+            { 
+                title: 'M.S Dhoni - The untold Story', 
+                year: 2023, 
+                quality: 'HD', 
+                rating: 8.1,
+                time: '3h 4m',
+                image: 'dhoni.png'
+            },
+            { 
+                title: 'Liger', 
+                year: 2023, 
+                quality: 'HD', 
+                rating: 9.1,
+                time: '2h 20m',
+                image: 'liger.png'
+            },
+            { 
+                title: 'The Amazing Spider-Man 2', 
+                year: 2014, 
+                quality: 'HD', 
+                rating: 8.8,
+                time: '2h 22m',
+                image: 'The Amazing Spider-Man 2.png'
+            },
+            { 
+                title: 'The Punisher', 
+                year: 2004, 
+                quality: 'HD', 
+                rating: 8.5,
+                time: '2h 4m',
+                image: 'punisher.png'
+            },
+            { 
+                title: 'The Last Airbender', 
+                year: 2010, 
+                quality: 'HD', 
+                rating: 7.2,
+                time: '1h 43m',
+                image: 'airbender.png'
+            },
+            { 
+                title: 'Avatar', 
+                year: 2009, 
+                quality: 'HD', 
+                rating: 9.5,
+                time: '2h 42m',
+                image: 'avatar.png'
+            },
+            { 
+                title: 'Beauty and the Beast', 
+                year: 2017, 
+                quality: 'HD', 
+                rating: 8.7,
+                time: '2h 9m',
+                image: 'beauty-beast.png'
+            },
+            { 
+                title: 'Frozen II', 
+                year: 2019, 
+                quality: 'HD', 
+                rating: 8.9,
+                time: '1h 44m',
+                image: 'frozen2.png'
+            }
+        ];
+
+        const moreMovies = [
+            { 
+                title: 'Hunger', 
+                year: 2023, 
+                quality: 'HD', 
+                rating: 8.6,
+                time: '2h 14m',
+                image: 'hunger.png'
+            },
+            { 
+                title: 'The Wedding Planner', 
+                year: 2001, 
+                quality: 'HD', 
+                rating: 7.5,
+                time: '1h 43m',
+                image: 'wedding-planner.png'
+            },
+            { 
+                title: 'Wazir', 
+                year: 2016, 
+                quality: 'HD', 
+                rating: 8.3,
+                time: '1h 43m',
+                image: 'wazir.png'
+            },
+            { 
+                title: 'Spider-Man 3', 
+                year: 2007, 
+                quality: 'HD', 
+                rating: 8.1,
+                time: '2h 19m',
+                image: 'spiderman3.png'
+            },
+            { 
+                title: 'Party Down', 
+                year: 2023, 
+                quality: 'HD', 
+                rating: 7.8,
+                time: '25m',
+                image: 'party-down.png'
+            },
+            { 
+                title: 'Inside NASA Innovation', 
+                year: 2023, 
+                quality: 'HD', 
+                rating: 7.9,
+                time: '1h 32m',
+                image: 'nasa.png'
+            },
+            { 
+                title: 'The Monkey King 2', 
+                year: 2016, 
+                quality: 'HD', 
+                rating: 8.0,
+                time: '1h 59m',
+                image: 'monkey-king2.png'
+            },
+            { 
+                title: 'Hawaii', 
+                year: 2013, 
+                quality: 'HD', 
+                rating: 7.4,
+                time: '1h 42m',
+                image: 'hawaii.png'
+            }
+        ];
+
+        function createMovieCard(movie) {
+          
+            const link = movie.link ? movie.link : '#';
+          
+            return `
+              <a class="movie-link" href="${link}">
+                <div class="movie-card">
+                  <div class="movie-poster">
+                    <img src="${movie.image}" alt="${movie.title}" loading="lazy">
+                  </div>
+                  <div class="movie-info">
+                    <div class="movie-title">${movie.title}</div>
+                    <div class="movie-meta">
+                      <span class="movie-year">${movie.year}</span>
+                      <div class="movie-details">
+                        <span>⏱ ${movie.time}</span>
+                        <span class="movie-quality">${movie.quality}</span>
+                        <span class="movie-rating">★ ${movie.rating}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            `;
+          }
+
+        function loadMovies() {
+            const grid = document.getElementById('moviesGrid');
+            grid.innerHTML = movies.map(movie => createMovieCard(movie)).join('');
+            
+            const moreGrid = document.getElementById('moreMoviesGrid');
+            moreGrid.innerHTML = moreMovies.map(movie => createMovieCard(movie)).join('');
+        }
+
+        function filterContent(type) {
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function filterByBrand(brand) {
+            alert('Showing ' + brand.toUpperCase() + ' content...');
+        }
+
+        function playMovie(title) {
+            alert('Playing: ' + title + '\n\nThis is a demo. In a real application, this would open the movie player.');
+        }
+
+        function changePage(page) {
+            const buttons = document.querySelectorAll('.page-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (page !== 'next') {
+                event.target.classList.add('active');
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Load movies when page loads
+        window.addEventListener('DOMContentLoaded', loadMovies);
+    </script>
+</body>
+</html>

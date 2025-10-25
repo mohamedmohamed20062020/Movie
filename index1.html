@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IT Movie - Sign In / Sign Up</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: url('img/img2.png') no-repeat center center/cover;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    .info-box, .form-box {
+      flex: 1 1 400px;
+      min-height: 550px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .form-box {
+      background: rgba(0,0,0,0.5);
+    }
+
+    .form-box h2 {
+      color: #00e5ff;
+      margin-bottom: 20px;
+      font-size: 2rem;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    input, select {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      padding: 10px 15px;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+      text-align: center;
+      width: 100%;
+    }
+    
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    button {
+      background: #00e5ff;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00ffff;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    .logo-img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      border-radius: 50%;
+      background-color: transparent;
+      mix-blend-mode: lighten;
+      filter: drop-shadow(0 0 14px #9cff00);
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .logo-img:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 20px #baff00);
+    }
+
+    .logo h1 {
+      margin: 0;
+      color: white;
+      font-weight: 700;
+      text-shadow: 0 0 12px rgba(156,255,0,0.3);
+    }
+
+    .switch {
+      margin-top: 20px;
+      color: #00e5ff;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .info-box, .form-box {
+        min-height: auto;
+        padding: 30px 20px;
+      }
+
+      form {
+        max-width: 100%;
+      }
+    }
+    
+        .back-btn {
+            position: fixed;
+            top: 100px;
+            left: 60px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            color: #a4d233;
+            transform: translateX(-5px);
+        }
+
+        .back-btn::before {
+            content: '←';
+            font-size: 24px;
+        }
+        .back-btn a {
+          text-decoration: none;
+          color: #ffffff;
+        }
+  </style>
+</head>
+    <div class="back-btn" onclick="goBack()"><a href="index.html">Back</a></div>
+
+<body>
+  <div class="container" id="container">
+    <div class="info-box" id="infoBox">
+      <div class="logo">
+        <img src="img/logo.jpg" alt="Logo" class="logo-img">
+        <h1>IT Movie</h1>
+      </div>
+      <h2 id="infoTitle">Welcome to IT Movie 🎬</h2>
+      <p id="infoText">Join us and explore unlimited movies, TV shows, and more!</p>
+      <button id="switchToSignUp">Create Account</button>
+    </div>
+
+    <div class="form-box" id="formBox">
+      <h2 id="formTitle">Sign In</h2>
+      <form id="signInForm">
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <span class="switch" id="switchToSignUpText">Don’t have an account? Sign Up</span>
+    </div>
+  </div>
+
+  <script>
+    const formBox = document.getElementById('formBox');
+    const formTitle = document.getElementById('formTitle');
+    const infoTitle = document.getElementById('infoTitle');
+    const infoText = document.getElementById('infoText');
+    const switchToSignUp = document.getElementById('switchToSignUp');
+    const switchToSignUpText = document.getElementById('switchToSignUpText');
+
+    switchToSignUp.onclick = switchToSignUpText.onclick = () => {
+      if (formTitle.textContent === 'Sign In') {
+        formTitle.textContent = 'Create Account';
+        infoTitle.textContent = 'Welcome Back 🎬';
+        infoText.textContent = 'Already have an account? Sign in to continue watching!';
+        switchToSignUp.textContent = 'Sign In';
+        formBox.innerHTML = `
+          <h2>Create Account</h2>
+          <form id="signUpForm">
+            <input type="text" placeholder="Full Name" required />
+            <input type="email" placeholder="Email" required />
+            <input type="password" placeholder="Password" required />
+            <input type="password" placeholder="Confirm Password" required />
+            <input type="tel" placeholder="Phone Number" required />
+            <input type="date" required />
+            <select required>
+              <option value="">Choose Country</option>
+              <option>USA</option>
+              <option>UK</option>
+              <option>Algeria</option>
+              <option>France</option>
+            </select>
+            <select required>
+              <option value="">Subscription Plan</option>
+              <option>Free</option>
+              <option>Premium</option>
+              <option>VIP</option>
+            </select>
+            <label style="color:white; font-size:0.8rem;">
+              <input type="checkbox" required> I agree to the <a href="#" style="color:#00e5ff;">terms & policy</a>
+            </label>
+            <button type="submit">Sign Up</button>
+          </form>`;
+      } else {
+        location.reload();
+      }
+    };
+  </script>
+</body>
+</html>
